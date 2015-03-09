@@ -65,7 +65,7 @@ float getTemp(OneWire sensor, byte addr[8]) {
   
   sensor.reset();
   sensor.select(addr);
-  g_sensor.write(0x44,1);
+  sensor.write(0x44,1);
   delay(1000);
   sensor.reset();
   sensor.select(addr);
