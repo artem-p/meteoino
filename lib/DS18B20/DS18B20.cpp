@@ -69,3 +69,12 @@ float getTemp(OneWire sensor, byte addr[8]) {
     return -temp;
   }
 }
+
+DS18B20::DS18B20(int pin) {
+  OneWire _sensor(pin);
+};
+
+float DS18B20::getTemp() {
+  //  Получаем температуру с датчика
+
+}

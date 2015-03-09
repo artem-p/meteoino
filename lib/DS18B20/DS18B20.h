@@ -7,4 +7,11 @@
 void initSensor(OneWire sensor, byte address[8]);
 float getTemp(OneWire sensor, byte addr[8]);
 
+class DS18B20
+{
+public:
+	DS18B20(int pin);
+	float getTemp();
+};
+
 #endif
