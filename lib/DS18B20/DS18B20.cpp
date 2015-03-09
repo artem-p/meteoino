@@ -1,55 +1,6 @@
+#include "Arduino.h"
 #include <OneWire.h>
-
-// DS18S20 Temperature chip i/o
-OneWire g_sensor(10);  // on pin 10
-byte g_address[8];
-boolean bConstantMeasure = false;
-String sStartConstMeasure = "start";
-String sStopConstMeasure = "stop";
-String IMM_MEASURE = "im";
-
-void setup(void) {
-  // initialize inputs/outputs
-  // start serial port
-  Serial.begin(9600);
-  initSensor( g_sensor, g_address );
-  bConstantMeasure = true;
-}
-
-void loop(void) {
-  float temp;
-  char incomingByte;
-  String sCommand;
-  
-  
-  sCommand = readStringFromSerial();
-  
-  if( sCommand == sStartConstMeasure ) {
-    bConstantMeasure = true;
-    Serial.println(sCommand);
-  }
-  else if ( sCommand == sStopConstMeasure ) {
-    bConstantMeasure = false;
-    Serial.println(sCommand);
-  }
-  
-  else if( sCommand == IMM_MEASURE ) {
-    temp = getTemp ( g_sensor, g_address );
-    Serial.println(temp,1);
-  }  
-  
-  if ( true ) {
-    temp = getTemp(g_sensor, g_address);
-    Serial.println(temp,1);
-  }
-  
-  delay(3000);
-
-//    delay(1000);     // maybe 750ms is enough, maybe not
-//  g_sensor.reset();
-//  g_sensor.select(g_address);
-//  g_sensor.write(0x44,1);
-}
+#include "DS18B20.h"
 
 void initSensor( OneWire sensor, byte address[8] ) {
   
@@ -93,7 +44,7 @@ float getTemp(OneWire sensor, byte addr[8]) {
   
   sensor.reset();
   sensor.select(addr);
-  g_sensor.write(0x44,1);
+  sensor.write(0x44,1);
   delay(1000);
   sensor.reset();
   sensor.select(addr);
@@ -117,23 +68,4 @@ float getTemp(OneWire sensor, byte addr[8]) {
   else {
     return -temp;
   }
-}
-
-String readStringFromSerial() {
-  String command = "";
-  char character;
-  int MAX_BUFFER_LENGTH = 100;
-  char buffer[MAX_BUFFER_LENGTH];
-  int i = 0;
-  
-  if ( Serial.available() ) {
-    delay(100);
-    while ( Serial.available() && i<MAX_BUFFER_LENGTH-1 ) {
-      //buffer[i++] = Serial.read();
-      character = Serial.read();
-      command.concat(character);
-    }
-    //buffer[i++] = '\0';
-  }
-  return command;
 }
