@@ -25,12 +25,7 @@ void setup(void) {
 
 void loop(void) {
   measure();
-  // float temp;
-  
-  // if ( true ) {
-  //   temp = g_dsTempSensor->getTemp();
-  //   Serial.println(temp,1);
-  // }
+  sendMeasuresToSerial();
   
   delay(3000);
 
@@ -72,5 +67,8 @@ void measure(void) {
 
 void sendMeasuresToSerial() {
   //  Отправляем результаты измерений в ком-порт
-  
+  for(int icSensor = 0; icSensor < N_SENSORS; icSensor++) {
+    float measureVal = g_measures[icSensor];
+    Serial.println(measureVal, 1);
+  }
 }
