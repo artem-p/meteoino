@@ -5,18 +5,22 @@
 OneWire g_sensor(10);  // on pin 10
 byte g_address[8];
 
+int g_pin = 10;
+DS18B20* g_dsTempSensor;
+
 void setup(void) {
   // initialize inputs/outputs
   // start serial port
   Serial.begin(9600);
-  initSensor( g_sensor, g_address );
+  g_dsTempSensor = new DS18B20(g_pin, g_address);
+  // initSensor( g_sensor, g_address );
 }
 
 void loop(void) {
   float temp;
   
   if ( true ) {
-    temp = getTemp(g_sensor, g_address);
+    temp = g_dsTempSensor->getTemp();
     Serial.println(temp,1);
   }
   

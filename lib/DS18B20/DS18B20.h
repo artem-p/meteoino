@@ -10,8 +10,12 @@ float getTemp(OneWire sensor, byte addr[8]);
 class DS18B20
 {
 public:
-	DS18B20(int pin);
+	DS18B20(int pin, byte address[8]);
 	float getTemp();
+private:
+	int _pin;
+	OneWire* _sensor;
+	byte* _address;
 };
 
 #endif
