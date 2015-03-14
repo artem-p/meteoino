@@ -1,17 +1,23 @@
 #include <OneWire.h>
-#include <DS18B20.h>
+#include <Sensors.h>
 
-// DS18S20 Temperature chip i/o
-OneWire g_sensor(10);  // on pin 10
-byte g_address[8];
+const int N_SENSORS = 1;                   //  Количество датчиков
+char g_sensorsDesc[N_SENSORS];       //  Описание (тип) датчиков
+int g_pins[N_SENSORS];           //  На каких они пинах
 
-int g_pin = 10;
+Sensor g_sensors[N_SENSORS];                    //  Сами датчики
+float g_measures[N_SENSORS];          //  Результаты измерений датчиков
+
 DS18B20* g_dsTempSensor;
+
+byte g_address[8];
+int g_pin = 10;
 
 void setup(void) {
   // initialize inputs/outputs
   // start serial port
   Serial.begin(9600);
+  // settings();
   g_dsTempSensor = new DS18B20(g_pin, g_address);
   // initSensor( g_sensor, g_address );
 }
@@ -27,3 +33,23 @@ void loop(void) {
   delay(3000);
 
 }
+
+// void settings(void) {
+//   //  Задаем настройки. Описываем датчики.
+//   g_sensorsDesc[0] = 'DS18B20';
+//   g_pins[0] = 10;
+// }
+
+// void initSensors(void) {
+//   //  Инициализируем датчики на основе настроек
+//   for(int icSensor = 0; icSensor < N_SENSORS; icSensor++){
+//     char descSensor = g_sensorsDesc[icSensor];
+//     int pin = g_pins[icSensor];
+
+//     if(descSensor == "DS18B20") {
+//       g_sensors[icSensor] = new DS18B20(pin, g_address);
+//     }
+//   }; 
+// }
+
+// void measure(void)
